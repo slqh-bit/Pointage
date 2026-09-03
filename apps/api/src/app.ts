@@ -14,6 +14,7 @@ import { absenceRoutes } from "./modules/absence/routes.js";
 import { iclockRoutes } from "./modules/device/iclock.routes.js";
 import { deviceRoutes } from "./modules/device/routes.js";
 import { planningRoutes } from "./modules/planning/routes.js";
+import { reportRoutes } from "./modules/report/routes.js";
 import { stubModule } from "./modules/stub.js";
 
 declare module "fastify" {
@@ -44,9 +45,9 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(planningRoutes);
   await app.register(absenceRoutes);
   await app.register(deviceRoutes);
+  await app.register(reportRoutes);
 
-  // Modules planifiés — surface d'API du §09, implémentée en P5/P7.
-  await app.register(stubModule("report", ["/api/v1/day-results", "/api/v1/reports", "/api/v1/exports/payroll"]), { prefix: "" });
+  // Modules planifiés — surface d'API du §09, implémentée en P7.
   await app.register(stubModule("webhook", ["/api/v1/webhooks"]), { prefix: "" });
 
   return app;

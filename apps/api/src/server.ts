@@ -7,8 +7,11 @@
  */
 import { buildApp } from "./app.js";
 import { config } from "./config.js";
+import { startJobWorker } from "./lib/jobs.js";
 
 const app = await buildApp();
+const stopWorker = startJobWorker(app.prisma);
+app.addHook("onClose", async () => stopWorker());
 
 try {
   await app.listen({ port: config.port, host: config.host });
