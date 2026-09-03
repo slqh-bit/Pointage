@@ -1,0 +1,25 @@
+{
+  "name": "pointage-rabta",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Système de pointage biométrique — CHU La Rabta (Consultation INF01/2026). Monorepo pnpm : API Fastify/Prisma, portail React, mobile Expo, drivers terminaux.",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm -r --parallel dev",
+    "dev:api": "pnpm --filter @pointage/api dev",
+    "dev:web": "pnpm --filter @pointage/web dev",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm --filter @pointage/contracts --filter @pointage/i18n --filter @pointage/drivers build && pnpm -r typecheck",
+    "db:migrate": "pnpm --filter @pointage/api db:migrate",
+    "db:seed": "pnpm --filter @pointage/api db:seed",
+    "sbom": "node ops/sbom/generate-sbom.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

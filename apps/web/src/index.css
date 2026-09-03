@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Règle RTL (Plan §01) : uniquement des propriétés CSS logiques
+ * (margin-inline-start, padding-inline-end, inset-inline-start…).
+ * Aucun margin-left / padding-right physique dans les composants.
+ */

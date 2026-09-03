@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Builds
+dist/
+build/
+*.tsbuildinfo
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Office lock files
+~$*
+
+# Prisma / local DB
+*.sqlite
+*.sqlite-journal
+
+# Mobile
+.expo/
+apps/mobile/dist/
+
+# Test & coverage
+coverage/
+playwright-report/
+test-results/
+
+# Ops artefacts
+ops/backup/dumps/
+ops/sbom/out/
+
+# Extracted working files
+plan_extracted.txt

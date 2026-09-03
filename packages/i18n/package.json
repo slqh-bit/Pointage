@@ -1,0 +1,37 @@
+{
+  "name": "@pointage/i18n",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bundles de ressources FR / AR (RTL) / EN — i18next (Plan §03). RTL pensé dès le premier commit : propriétés CSS logiques partout.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./fr": {
+      "types": "./dist/fr/index.d.ts",
+      "import": "./dist/fr/index.js"
+    },
+    "./ar": {
+      "types": "./dist/ar/index.d.ts",
+      "import": "./dist/ar/index.js"
+    },
+    "./en": {
+      "types": "./dist/en/index.d.ts",
+      "import": "./dist/en/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
