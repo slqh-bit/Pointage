@@ -10,7 +10,10 @@ import { config } from "./config.js";
 import { createPrisma } from "./lib/prisma.js";
 import { attendanceRoutes } from "./modules/attendance/routes.js";
 import { authRoutes } from "./modules/auth/routes.js";
+import { absenceRoutes } from "./modules/absence/routes.js";
 import { iclockRoutes } from "./modules/device/iclock.routes.js";
+import { deviceRoutes } from "./modules/device/routes.js";
+import { planningRoutes } from "./modules/planning/routes.js";
 import { stubModule } from "./modules/stub.js";
 
 declare module "fastify" {
@@ -38,12 +41,12 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(authRoutes);
   await app.register(attendanceRoutes);
   await app.register(iclockRoutes);
+  await app.register(planningRoutes);
+  await app.register(absenceRoutes);
+  await app.register(deviceRoutes);
 
-  // Modules planifiés — surface d'API du §09, implémentée en P2–P5.
-  await app.register(stubModule("planning", ["/api/v1/schedules", "/api/v1/cycles"]), { prefix: "" });
-  await app.register(stubModule("absence", ["/api/v1/absences", "/api/v1/balances"]), { prefix: "" });
+  // Modules planifiés — surface d'API du §09, implémentée en P5/P7.
   await app.register(stubModule("report", ["/api/v1/day-results", "/api/v1/reports", "/api/v1/exports/payroll"]), { prefix: "" });
-  await app.register(stubModule("device", ["/api/v1/devices"]), { prefix: "" });
   await app.register(stubModule("webhook", ["/api/v1/webhooks"]), { prefix: "" });
 
   return app;
