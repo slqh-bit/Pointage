@@ -15,6 +15,7 @@ import { authRoutes } from "./modules/auth/routes.js";
 import { iclockRoutes } from "./modules/device/iclock.routes.js";
 import { deviceRoutes } from "./modules/device/routes.js";
 import { notificationRoutes } from "./modules/notification/routes.js";
+import { organisationRoutes } from "./modules/organisation/routes.js";
 import { overtimeRoutes } from "./modules/overtime/routes.js";
 import { planningRoutes } from "./modules/planning/routes.js";
 import { reportRoutes } from "./modules/report/routes.js";
@@ -52,6 +53,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(anomalyRoutes);
   await app.register(overtimeRoutes);
   await app.register(notificationRoutes);
+  await app.register(organisationRoutes);
   await app.register(webhookRoutes);
 
   return app;
