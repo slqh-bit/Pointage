@@ -8,14 +8,17 @@ import rateLimit from "@fastify/rate-limit";
 import Fastify, { type FastifyInstance } from "fastify";
 import { config } from "./config.js";
 import { createPrisma } from "./lib/prisma.js";
+import { absenceRoutes } from "./modules/absence/routes.js";
+import { anomalyRoutes } from "./modules/anomaly/routes.js";
 import { attendanceRoutes } from "./modules/attendance/routes.js";
 import { authRoutes } from "./modules/auth/routes.js";
-import { absenceRoutes } from "./modules/absence/routes.js";
 import { iclockRoutes } from "./modules/device/iclock.routes.js";
 import { deviceRoutes } from "./modules/device/routes.js";
+import { notificationRoutes } from "./modules/notification/routes.js";
+import { overtimeRoutes } from "./modules/overtime/routes.js";
 import { planningRoutes } from "./modules/planning/routes.js";
 import { reportRoutes } from "./modules/report/routes.js";
-import { stubModule } from "./modules/stub.js";
+import { webhookRoutes } from "./modules/webhook/routes.js";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -38,7 +41,7 @@ export async function buildApp(): Promise<FastifyInstance> {
 
   app.get("/health", async () => ({ status: "ok", service: "pointage-rabta-api" }));
 
-  // Modules implémentés
+  // Tous les modules de la surface d'API §09 sont implémentés.
   await app.register(authRoutes);
   await app.register(attendanceRoutes);
   await app.register(iclockRoutes);
@@ -46,9 +49,10 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(absenceRoutes);
   await app.register(deviceRoutes);
   await app.register(reportRoutes);
-
-  // Modules planifiés — surface d'API du §09, implémentée en P7.
-  await app.register(stubModule("webhook", ["/api/v1/webhooks"]), { prefix: "" });
+  await app.register(anomalyRoutes);
+  await app.register(overtimeRoutes);
+  await app.register(notificationRoutes);
+  await app.register(webhookRoutes);
 
   return app;
 }

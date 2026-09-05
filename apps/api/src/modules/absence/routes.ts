@@ -6,6 +6,7 @@
 import { AbsenceDecisionSchema, AbsenceRequestCreateSchema } from "@pointage/contracts";
 import type { FastifyInstance } from "fastify";
 import { authenticate, inScope, requireRole } from "../../plugins/auth.js";
+import { emitWebhook } from "../webhook/routes.js";
 
 const DAY_MS = 86_400_000;
 
@@ -112,6 +113,17 @@ export async function absenceRoutes(app: FastifyInstance): Promise<void> {
         }
         return r;
       });
+
+      // Événement webhook absence.approved (§09) — livraison signée.
+      if (decision === "APPROVED") {
+        await emitWebhook(app.prisma, "absence.approved", {
+          id: updated.id,
+          employeeId: updated.employeeId,
+          absenceTypeId: updated.absenceTypeId,
+          startDate: updated.startDate,
+          endDate: updated.endDate,
+        });
+      }
 
       return reply.send(updated);
     },

@@ -10,6 +10,7 @@
  */
 import type { PrismaClient } from "@prisma/client";
 import { recomputeRange } from "../engine/service.js";
+import { deliverWebhook } from "../modules/webhook/routes.js";
 
 const POLL_MS = 5_000;
 
@@ -74,6 +75,9 @@ async function runJob(prisma: PrismaClient, kind: string, payload: unknown): Pro
     case "REPORT_MONTHLY":
       // La génération de fichier est à la demande sur /reports/:jobId/export ;
       // le job matérialise la demande et sa traçabilité.
+      return;
+    case "WEBHOOK_DELIVER":
+      await deliverWebhook(prisma, p["subscriptionId"]!, p["event"]!, p["data"]);
       return;
     case "RECONCILE_PULL":
       // P2 : pull de réconciliation via ZktecoDriver.pullEvents sur chaque

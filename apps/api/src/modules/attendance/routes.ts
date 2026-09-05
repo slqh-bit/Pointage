@@ -5,6 +5,7 @@
 import { PunchCreateSchema } from "@pointage/contracts";
 import type { FastifyInstance } from "fastify";
 import { authenticate, inScope } from "../../plugins/auth.js";
+import { emitWebhook } from "../webhook/routes.js";
 
 export async function attendanceRoutes(app: FastifyInstance): Promise<void> {
   app.addHook("preHandler", authenticate);
@@ -41,6 +42,16 @@ export async function attendanceRoutes(app: FastifyInstance): Promise<void> {
         geofenceOk,
       },
     });
+
+    // Événement webhook punch.created (§09) — livraison signée, retry via jobs.
+    await emitWebhook(app.prisma, "punch.created", {
+      id: punch.id,
+      employeeId: punch.employeeId,
+      punchedAt: punch.punchedAt,
+      source: punch.source,
+      geofenceOk: punch.geofenceOk,
+    });
+
     return reply.code(201).send({ id: punch.id, geofenceOk });
   });
 
